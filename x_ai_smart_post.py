@@ -101,7 +101,7 @@ def research_ai_trends() -> str:
     
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             messages=[
                 {"role": "system", "content": "あなたは生成AI技術の最新動向に詳しい専門家です。"},
                 {"role": "user", "content": prompt}
@@ -160,7 +160,7 @@ def generate_tweet_with_insight(research_data: str) -> str:
     
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             messages=[
                 {"role": "system", "content": "あなたは『くーたん博士』という生成AI技術に詳しいキャラクターです。親しみやすく、かわいい口調で、専門的な内容を分かりやすく楽しく伝えるのが得意です。"},
                 {"role": "user", "content": prompt}
