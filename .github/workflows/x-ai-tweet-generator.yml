@@ -1,0 +1,45 @@
+name: X AI Tweet Generator
+# Auto-generate AI tweets with Kutan-sensei
+
+on:
+  workflow_dispatch:     # 手動実行を許可
+  schedule:
+    - cron: "0 */6 * * *"  # 6時間ごとに自動実行（UTC基準）
+
+jobs:
+  generate-tweet:
+    name: Generate and Post Tweet
+    runs-on: ubuntu-latest
+
+    steps:
+      # --- コード取得 ---
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # --- Python セットアップ ---
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      # --- 依存関係インストール ---
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # --- ツイート生成スクリプト実行 ---
+      - name: Generate tweet
+        run: python scripts/generate_tweet.py
+
+      # --- X(Twitter) 自動投稿 ---
+      - name: Post tweet to X
+        env:
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+        run: python scripts/post_tweet.py
+      # --- 確認ログ出力 ---
+      - name: Confirm success
+        run: echo "✅ X AI Tweet Generator executed successfully!"
