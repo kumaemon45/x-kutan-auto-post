@@ -2,6 +2,16 @@ name: X AI Tweet Generator
 # Auto-generate AI tweets with Kutan-sensei
 
 on:
+　name: X AI Tweet Generator
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
+jobs:
+  tweet:
+    runs-on: ubuntu-latest
+
   schedule:
     # 毎日 9時（JST） = 0時（UTC）
     - cron: '0 0 * * *'
