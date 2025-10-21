@@ -1,15 +1,11 @@
 name: X AI Tweet Generator
-# Auto-generate AI tweets with Kutan-sensei
 
 on:
   schedule:
-    # 毎日 9時（JST） = 0時（UTC）
     - cron: '0 0 * * *'
-    # 毎日 12時（JST） = 3時（UTC）
     - cron: '0 3 * * *'
-    # 毎日 18時（JST） = 9時（UTC）
     - cron: '0 9 * * *'
-  workflow_dispatch: # 手動実行を許可
+  workflow_dispatch:
 
 jobs:
   generate-tweet:
@@ -62,37 +58,35 @@ jobs:
             repo: context.repo.repo,
             title: `🤖 くーたん博士のツイート案 - ${jstTime}`,
             body: `## 📝 生成されたツイート
-
-\`\`\`
-${tweet}
-\`\`\`
-
----
-
-### 📊 詳細情報
-
-- **文字数**: ${charCount}/280
-- **生成時刻**: ${jstTime} (JST)
-- **ハッシュタグ**: #生成AI #AI
-
----
-
-### ✅ 投稿方法
-
-1. 上記のツイート内容をコピー
-2. [X (Twitter)](https://twitter.com/compose/tweet) にアクセス
-3. ツイート内容を貼り付けて投稿
-
----
-
-### 🔄 再生成
-
-内容が気に入らない場合は、[Actions](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/workflows/auto-generate.yml)から手動で再実行できます。
-
----
-
-*このIssueは自動生成されました by GitHub Actions*
-`,
+          
+          ${tweet}
+          
+          ---
+          
+          ### 📊 詳細情報
+          
+          - **文字数**: ${charCount}/280
+          - **生成時刻**: ${jstTime} (JST)
+          - **ハッシュタグ**: #生成AI #AI
+          
+          ---
+          
+          ### ✅ 投稿方法
+          
+          1. 上記のツイート内容をコピー
+          2. [X (Twitter)](https://twitter.com/compose/tweet) にアクセス
+          3. ツイート内容を貼り付けて投稿
+          
+          ---
+          
+          ### 🔄 再生成
+          
+          内容が気に入らない場合は、[Actions](https://github.com/${context.repo.owner}/${context.repo.repo}/actions)から手動で再実行できます。
+          
+          ---
+          
+          *このIssueは自動生成されました by GitHub Actions*
+          `,
             labels: ['tweet', 'auto-generated']
           });
           
