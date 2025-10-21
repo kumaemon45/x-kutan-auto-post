@@ -35,7 +35,7 @@ def research_ai_trends() -> str:
         client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
         
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             messages=[
                 {
                     "role": "system",
@@ -85,7 +85,7 @@ def generate_kutan_tweet(research_summary: str) -> str:
         client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
         
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             messages=[
                 {
                     "role": "system",
@@ -185,4 +185,3 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
-
