@@ -105,3 +105,4 @@ ${tweet}
         name: tweet-logs
         path: tweet_generator.log
         retention-days: 30
+
