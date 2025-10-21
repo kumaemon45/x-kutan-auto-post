@@ -1,4 +1,5 @@
 name: X AI Tweet Generator
+# Auto-generate AI tweets with Kutan-sensei
 
 on:
   schedule:
