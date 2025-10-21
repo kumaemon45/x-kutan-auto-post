@@ -43,54 +43,51 @@ jobs:
     
     - name: Create GitHub Issue
       uses: actions/github-script@v7
-      env:
-        TWEET_CONTENT: ${{ steps.generate.outputs.tweet }}
-        CHAR_COUNT: ${{ steps.generate.outputs.char_count }}
-        JST_TIME: ${{ steps.time.outputs.jst_time }}
       with:
         script: |
-          const tweet = process.env.TWEET_CONTENT;
-          const charCount = process.env.CHAR_COUNT;
-          const jstTime = process.env.JST_TIME;
+          const tweet = process.env.TWEET_CONTENT || 'ツイート生成に失敗しました';
+          const charCount = process.env.CHAR_COUNT || '0';
+          const jstTime = process.env.JST_TIME || '不明';
+          
+          const issueBody = [
+            '## 📝 生成されたツイート',
+            '',
+            tweet,
+            '',
+            '---',
+            '',
+            '### 📊 詳細情報',
+            '',
+            '- **文字数**: ' + charCount + '/280',
+            '- **生成時刻**: ' + jstTime + ' (JST)',
+            '- **ハッシュタグ**: #生成AI #AI',
+            '',
+            '---',
+            '',
+            '### ✅ 投稿方法',
+            '',
+            '1. 上記のツイート内容をコピー',
+            '2. [X (Twitter)](https://twitter.com/compose/tweet) にアクセス',
+            '3. ツイート内容を貼り付けて投稿',
+            '',
+            '---',
+            '',
+            '*このIssueは自動生成されました by GitHub Actions*'
+          ].join('\n');
           
           const issue = await github.rest.issues.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            title: `🤖 くーたん博士のツイート案 - ${jstTime}`,
-            body: `## 📝 生成されたツイート
-          
-          ${tweet}
-          
-          ---
-          
-          ### 📊 詳細情報
-          
-          - **文字数**: ${charCount}/280
-          - **生成時刻**: ${jstTime} (JST)
-          - **ハッシュタグ**: #生成AI #AI
-          
-          ---
-          
-          ### ✅ 投稿方法
-          
-          1. 上記のツイート内容をコピー
-          2. [X (Twitter)](https://twitter.com/compose/tweet) にアクセス
-          3. ツイート内容を貼り付けて投稿
-          
-          ---
-          
-          ### 🔄 再生成
-          
-          内容が気に入らない場合は、[Actions](https://github.com/${context.repo.owner}/${context.repo.repo}/actions)から手動で再実行できます。
-          
-          ---
-          
-          *このIssueは自動生成されました by GitHub Actions*
-          `,
+            title: '🤖 くーたん博士のツイート案 - ' + jstTime,
+            body: issueBody,
             labels: ['tweet', 'auto-generated']
           });
           
-          console.log(\`Issue created: #\${issue.data.number}\`);
+          console.log('Issue created: #' + issue.data.number);
+      env:
+        TWEET_CONTENT: ${{ steps.generate.outputs.tweet }}
+        CHAR_COUNT: ${{ steps.generate.outputs.char_count }}
+        JST_TIME: ${{ steps.time.outputs.jst_time }}
     
     - name: Upload logs
       if: always()
